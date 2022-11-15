@@ -37,7 +37,8 @@ int assemble (std::string line){
     }
 
      argVec.push_back(args);
-
+    
+    // Encode based on register type
     if(regType == 3){
         std::bitset<3> regD (argVec[0][1]);
         std::bitset<3> regA (argVec[1][1]);
