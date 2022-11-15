@@ -1,4 +1,5 @@
 #include "headers/params.h"
+#include "headers/globals.h"
 
 bool __VERBOSE = false;
 

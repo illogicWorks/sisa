@@ -6,6 +6,7 @@
 #include "headers/params.h"
 #include "headers/assembler.h"
 #include "headers/utils.h"
+#include "headers/globals.h"
 
 void handleFlag(char const flag){
     switch (flag)
