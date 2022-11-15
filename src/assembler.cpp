@@ -26,6 +26,7 @@ int assemble (std::string line){
     std::string delimiter = ", ";
     std::string token;
     std::vector<std::string> argVec;
+    
     // Separate args
     while((pos = args.find(delimiter)) != std::string::npos){
         token = args.substr(0, pos);
