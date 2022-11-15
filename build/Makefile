@@ -1,6 +1,6 @@
 all: compile run
 compile: folder
-	g++ ../src/main.cpp ../src/params.cpp ../src/assembler.cpp -o ../bin/sisa
+	g++ ../src/*.cpp -o ../bin/sisa
 run: 
 	../bin/sisa ../examples/hey.sisa
 

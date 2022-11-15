@@ -1,1 +1,1 @@
-CMPEQ R7, R2, R1
+OR R7, R5, R2

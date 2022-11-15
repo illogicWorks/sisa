@@ -5,8 +5,7 @@
 #include "headers/strings.h"
 #include "headers/params.h"
 #include "headers/assembler.h"
-
-bool verbose = false;
+#include "headers/utils.h"
 
 void handleFlag(char const flag){
     switch (flag)
@@ -15,7 +14,7 @@ void handleFlag(char const flag){
             std::cout << _WELCOME << " v" << _VERSION << std::endl;
             break;
         case 'v':
-            verbose = true;
+            setVerbose();
             break;
     }
 }
@@ -30,12 +29,7 @@ void handleInput(char const* path){
     {
         while (std::getline(file, line))
         {
-            if(verbose){
-                std::cout << line << std::endl;
-            }
-
             assemble(line);
-
         }
         file.close();
     }

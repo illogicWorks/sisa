@@ -1,9 +1,10 @@
 #include "headers/assembler.h"
+#include "headers/utils.h"
 
 std::vector<std::string> mathops = {"AND", "OR", "XOR", "NOT", "ADD", "SUB", "SHA", "SHL"};
 std::vector<std::string> cmpops = {"CMPLT", "CMPLE", "-", "CMPEQ", "CMPLTU", "CMPLEU", "-", "-"};
 
-int assemble (std::string line){
+unsigned short int assemble (std::string line){
     // Keep string copy
     std::string args = line;
 
@@ -12,15 +13,15 @@ int assemble (std::string line){
 
     std::string instr = line.substr(0, line.find(' '));
 
-    std::cout << "Instruction is " << instr << std::endl;
+    debug("Instruction", instr);
 
     std::bitset<4> op;
     std::bitset<3> f;
 
     int regType = getOpcode(instr, op, f);
-    std::cout << "Regtype: " << regType << std::endl;
-    std::cout << "Opcode: " << op << std::endl;
-    std::cout << "Func: " << f << std::endl;
+    debug("Regtype", regType);
+    debug("Opcode", op);
+    debug("Func", f);
 
     int pos = 0;
     std::string delimiter = ", ";
@@ -44,14 +45,13 @@ int assemble (std::string line){
         std::bitset<3> regA (argVec[1][1]);
         std::bitset<3> regB (argVec[2][1]);
 
-        std::cout << "D: " << regD << std::endl;
-        std::cout << "A: " << regA << std::endl;
-        std::cout << "B: " << regB << std::endl;
-        
-        std::bitset<16> encInstr(op.to_string() + regA.to_string() + regB.to_string() + regD.to_string() + f.to_string());
-        std::cout << "Encoded: " << encInstr << std::endl;
+        debug("D", regD);
+        debug("A", regA);
+        debug("B", regB);
 
-        
+        std::bitset<16> encInstr(op.to_string() + regA.to_string() + regB.to_string() + regD.to_string() + f.to_string());
+        debug("Encoded", encInstr);
+        return encInstr.to_ulong();
     }
 
     return 0;
