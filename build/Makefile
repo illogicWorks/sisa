@@ -1,4 +1,4 @@
-all: compile run
+all: compile
 compile: folder
 	g++ ../src/*.cpp -o ../bin/sisa
 run: 
