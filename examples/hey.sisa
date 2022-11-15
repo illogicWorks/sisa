@@ -1,1 +1,1 @@
-CMPEQ R0, R0, 1
+CMPEQ R7, R2, R1
