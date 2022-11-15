@@ -43,11 +43,14 @@ int assemble (std::string line){
         std::bitset<3> regA (argVec[1][1]);
         std::bitset<3> regB (argVec[2][1]);
 
-
-
         std::cout << "D: " << regD << std::endl;
         std::cout << "A: " << regA << std::endl;
         std::cout << "B: " << regB << std::endl;
+        
+        std::bitset<16> encInstr(op.to_string() + regA.to_string() + regB.to_string() + regD.to_string() + f.to_string());
+        std::cout << "Encoded: " << encInstr << std::endl;
+
+        
     }
 
     return 0;
