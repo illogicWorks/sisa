@@ -6,15 +6,13 @@
 #include "headers/params.h"
 #include "headers/assembler.h"
 
-using namespace std;
-
 bool verbose = false;
 
 void handleFlag(char const flag){
     switch (flag)
     {
         case 'h':
-            cout << _WELCOME << " v" << _VERSION << endl;
+            std::cout << _WELCOME << " v" << _VERSION << std::endl;
             break;
         case 'v':
             verbose = true;
@@ -23,23 +21,23 @@ void handleFlag(char const flag){
 }
 
 void handleInput(char const* path){
-    cout << "Opening " << path << endl;
+    std::cout << "Opening " << path << std::endl;
 
-    string line;
-    ifstream file (path);
+    std::string line;
+    std::ifstream file (path);
 
     if (file.is_open())
     {
-        while (getline(file, line))
+        while (std::getline(file, line))
         {
             if(verbose){
-                cout << line << '\n';
+                std::cout << line << std::endl;
             }
-            
+
             assemble(line);
 
         }
         file.close();
     }
-    else cout << _FILEERROR; 
+    else std::cout << _FILEERROR; 
 }

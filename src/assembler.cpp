@@ -2,18 +2,18 @@
 
 #include "headers/assembler.h"
 
-using namespace std;
+int assemble (std::string line){
+    std::string args = line;
 
-int assemble (string line){
-    string args = line;
-
-    string instr = line.substr(0, line.find(' '));
+    std::string instr = line.substr(0, line.find(' '));
 
     args = args.substr(args.find(' '), line.length() - args.find(' '));
 
+    int pos = 0;
+    while((pos = args.find(',')) != std::string::npos)
 
-    cout << "Instruction is " << instr << endl;
-    cout << "Args are" << args << endl;
+    std::cout << "Instruction is " << instr << std::endl;
+    std::cout << "Args are" << args << std::endl;
 
     return 0;
 }
