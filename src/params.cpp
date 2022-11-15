@@ -13,6 +13,8 @@ void handleFlag(char const flag){
     {
         case 'h':
             std::cout << _WELCOME << " v" << _VERSION << std::endl;
+            std::cout << _USAGE << std::endl;
+            std::cout << _FLAGS << std::endl;
             break;
         case 'v':
             __VERBOSITY = 2;
