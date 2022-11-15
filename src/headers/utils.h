@@ -1,11 +1,9 @@
 #pragma once
-
 #include <string>
 #include <iostream>
+#include "globals.h"
 
-
-void setVerbose();
-
-void debug(std::string key, std::string value);
-
-void debug(std::string key, int value);
+template <typename T>
+void debug(std::string key, T value){
+  if (__VERBOSE) std::cout << key << ": " << value << std::endl;
+}

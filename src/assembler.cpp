@@ -1,6 +1,9 @@
 #include "headers/assembler.h"
 #include "headers/utils.h"
 
+#include <vector>
+#include <iostream>
+
 std::vector<std::string> mathops = {"AND", "OR", "XOR", "NOT", "ADD", "SUB", "SHA", "SHL"};
 std::vector<std::string> cmpops = {"CMPLT", "CMPLE", "-", "CMPEQ", "CMPLTU", "CMPLEU", "-", "-"};
 

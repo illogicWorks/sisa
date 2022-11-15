@@ -14,7 +14,7 @@ void handleFlag(char const flag){
             std::cout << _WELCOME << " v" << _VERSION << std::endl;
             break;
         case 'v':
-            setVerbose();
+            __VERBOSE = true;
             break;
     }
 }
