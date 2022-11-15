@@ -20,7 +20,7 @@ void handleFlag(char const flag){
         case 'i':
             __INLINE = true;
             __VERBOSITY = 1;
-            break;
+            break; 
     }
 }
 
@@ -35,12 +35,19 @@ void handleInput(char const* path){
 
         if (file.is_open())
         {
+            std::ofstream oFile (__OUTPATH, std::ios::out | std::ios::binary);
+            
             while (std::getline(file, line))
             {
-                assemble(line);
+                unsigned short int data = assemble(line);
+                std::cout << "RAW DATA: " << data << std::endl;
+                oFile.write((char*) &data, sizeof(data));
             }
             file.close();
+            oFile.close();
+
+            if(!oFile.good()) std::cout << _FILE_WRITE_ERROR << std::endl;
         }
-        else std::cout << _FILEERROR; 
+        else std::cout << _FILE_READ_ERROR << std::endl; 
     }
 }
