@@ -15,24 +15,32 @@ void handleFlag(char const flag){
             std::cout << _WELCOME << " v" << _VERSION << std::endl;
             break;
         case 'v':
-            __VERBOSE = true;
+            __VERBOSITY = 2;
+            break;
+        case 'i':
+            __INLINE = true;
+            __VERBOSITY = 1;
             break;
     }
 }
 
 void handleInput(char const* path){
-    std::cout << "Opening " << path << std::endl;
+    if(__INLINE){
+        assemble(path);
+    }else{
+        std::cout << "Opening " << path << std::endl;
 
-    std::string line;
-    std::ifstream file (path);
+        std::string line;
+        std::ifstream file (path);
 
-    if (file.is_open())
-    {
-        while (std::getline(file, line))
+        if (file.is_open())
         {
-            assemble(line);
+            while (std::getline(file, line))
+            {
+                assemble(line);
+            }
+            file.close();
         }
-        file.close();
+        else std::cout << _FILEERROR; 
     }
-    else std::cout << _FILEERROR; 
 }

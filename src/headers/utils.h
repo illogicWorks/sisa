@@ -4,6 +4,6 @@
 #include "globals.h"
 
 template <typename T>
-void debug(std::string key, T value){
-  if (__VERBOSE) std::cout << key << ": " << value << std::endl;
+void debug(std::string key, T value, int verbosity){
+  if (__VERBOSITY >= verbosity) std::cout << key << ": " << value << std::endl;
 }

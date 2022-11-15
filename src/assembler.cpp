@@ -16,15 +16,15 @@ unsigned short int assemble (std::string line){
 
     std::string instr = line.substr(0, line.find(' '));
 
-    debug("Instruction", instr);
+    debug("Instruction", instr, 2);
 
     std::bitset<4> op;
     std::bitset<3> f;
 
     int regType = getOpcode(instr, op, f);
-    debug("Regtype", regType);
-    debug("Opcode", op);
-    debug("Func", f);
+    debug("Regtype", regType, 2);
+    debug("Opcode", op, 2);
+    debug("Func", f, 2);
 
     int pos = 0;
     std::string delimiter = ", ";
@@ -48,12 +48,12 @@ unsigned short int assemble (std::string line){
         std::bitset<3> regA (argVec[1][1]);
         std::bitset<3> regB (argVec[2][1]);
 
-        debug("D", regD);
-        debug("A", regA);
-        debug("B", regB);
+        debug("D", regD, 2);
+        debug("A", regA, 2);
+        debug("B", regB, 2);
 
         std::bitset<16> encInstr(op.to_string() + regA.to_string() + regB.to_string() + regD.to_string() + f.to_string());
-        debug("Encoded", encInstr);
+        debug("Encoded", encInstr, 1);
         return encInstr.to_ulong();
     }
 

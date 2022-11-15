@@ -1,7 +1,8 @@
 #include "headers/params.h"
 #include "headers/globals.h"
 
-bool __VERBOSE = false;
+int __VERBOSITY = 0;
+bool __INLINE = false;
 
 int main(int argc, char const *argv[])
 {
@@ -9,6 +10,5 @@ int main(int argc, char const *argv[])
         if(argv[i][0] == '-') handleFlag(argv[i][1]);
         else handleInput(argv[i]);
     }
-
     return 0;
 }

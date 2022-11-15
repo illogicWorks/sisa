@@ -1,3 +1,4 @@
 #pragma once
 
-extern bool __VERBOSE;
+extern int __VERBOSITY;
+extern bool __INLINE;
