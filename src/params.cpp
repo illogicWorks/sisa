@@ -40,7 +40,6 @@ void handleInput(char const* path){
             while (std::getline(file, line))
             {
                 unsigned short int data = assemble(line);
-                std::cout << "RAW DATA: " << data << std::endl;
                 oFile.write((char*) &data, sizeof(data));
             }
             file.close();

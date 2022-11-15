@@ -53,8 +53,12 @@ unsigned short int assemble (std::string line){
         debug("B", regB, 2);
 
         std::bitset<16> encInstr(op.to_string() + regA.to_string() + regB.to_string() + regD.to_string() + f.to_string());
-        debug("Encoded", encInstr, 1);
-        return encInstr.to_ulong();
+        unsigned short int result = encInstr.to_ulong();
+
+        debug("Encoded", encInstr, 1, false);
+        debugHex(result, 1);
+        
+        return result;
     }
 
     return 0;
