@@ -95,6 +95,9 @@ unsigned short int assemble (std::string line, bool& error){
         std::bitset<6> N;
         std::bitset<3> regA;
         std::bitset<3> regBD; // B OR D
+
+        std::vector<std::string> splitArgs;
+
         switch (order)
         {
             case 0:
@@ -104,8 +107,10 @@ unsigned short int assemble (std::string line, bool& error){
                 break;
             case 1:
                 regBD = std::bitset<3>(argVec[0][1]);
-                N = std::bitset<6>(std::stoi(argVec[2]));
-                regA = std::bitset<3>(argVec[1][1]);
+                splitString(argVec[1], splitArgs, "(");
+
+                N = std::bitset<6>(std::stoi(splitArgs[0]));
+                regA = std::bitset<3>(splitArgs[1][1]);
                 break;
             case 2:
                 /* code */
@@ -114,6 +119,10 @@ unsigned short int assemble (std::string line, bool& error){
                 /* code */
                 break;
         }
+
+        debug("BD", regBD, 2);
+        debug("N", N, 2);
+        debug("A", regA, 2);
 
         std::bitset<16> encInstr(op.to_string() + regA.to_string() + regBD.to_string() + N.to_string());
         unsigned short int result = encInstr.to_ulong();
