@@ -113,10 +113,18 @@ unsigned short int assemble (std::string line, bool& error){
                 regA = std::bitset<3>(splitArgs[1][1]);
                 break;
             case 2:
-                /* code */
+                regBD = std::bitset<3>(argVec[1][1]);
+                splitString(argVec[0], splitArgs, "(");
+
+                N = std::bitset<6>(std::stoi(splitArgs[0]));
+                regA = std::bitset<3>(splitArgs[1][1]);
+
                 break;
              case 3:
-                /* code */
+                regBD = std::bitset<3>(argVec[0][1]);
+                regA = std::bitset<3>(argVec[1][1]);
+                N = std::bitset<6>(0);
+
                 break;
         }
 
