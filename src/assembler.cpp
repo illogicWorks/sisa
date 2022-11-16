@@ -16,6 +16,19 @@ std::map<std::string, int> tworegops = {
     { "JALR", 3 }
 };
 
+std::map<std::string, int> one_0_regops = {
+    { "BZ", 0 },
+    { "MOVI", 0 },
+    { "IN", 0 },
+};
+
+std::map<std::string, int> one_1_regops = {
+    { "BNZ", 0 },
+    { "MOVHI", 0 },
+    { "OUT", 1 }
+};
+
+
 void splitString(std::string str, std::vector<std::string>& argVec, std::string delimiter){
     int pos = 0;
     std::string token;
@@ -141,6 +154,37 @@ unsigned short int assemble (std::string line, bool& error){
         return result;
 
     }else if (regType == 1){
+        std::bitset<8> N;
+        std::bitset<3> regAD;
+        std::bitset<1> nextInstr; // B OR D
+
+        std::vector<std::string> splitArgs;
+
+        switch (order)
+        {
+            case 0:
+                regAD = std::bitset<3>(argVec[0][1]);
+                nextInstr = std::bitset<1>(f.to_ulong());
+                N = std::bitset<8>(std::stoi(argVec[1]));
+                break;
+            case 1:
+                regAD = std::bitset<3>(argVec[1][1]);
+                nextInstr = std::bitset<1>(f.to_ulong());
+                N = std::bitset<8>(std::stoi(argVec[0]));
+                break;
+        }
+
+        debug("AD", regAD, 2);
+        debug("N", N, 2);
+        debug("NextInstr", nextInstr, 2);
+
+        std::bitset<16> encInstr(op.to_string() + regAD.to_string() + nextInstr.to_string() + N.to_string());
+        unsigned short int result = encInstr.to_ulong();
+
+        debug("Encoded", encInstr, 1, false);
+        debugHex(result, 1);
+        
+        return result;
 
     }else{
         debug("ERROR", "Unkown instruction " + instr + " at line TODO", 1);
@@ -180,7 +224,33 @@ int getOpcode (std::string instr, std::bitset<4>& op, std::bitset<3>& f, int& or
         }
         i++;
     }
+
+    // This will be probably replaced by a better handler
     
+    // One ZERO register format INS REGA, REGB/D, N
+    for (auto const& [key, val] : one_0_regops)
+    {
+        if(instr == key) {
+            op = i;
+            f = 0;
+            order = val;
+            return 1;
+        }
+        i++;
+    }
+    i -= one_0_regops.size();
+   // One ONE register format INS REGA, REGB/D, N
+    for (auto const& [key, val] : one_1_regops)
+    {
+        if(instr == key) {
+            op = i;
+            f = 1;
+            order = val;
+            return 1;
+        }
+        i++;
+    }
+ 
 
     // One register format INS REGA, N
     return -1;
