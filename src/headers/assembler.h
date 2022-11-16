@@ -2,7 +2,10 @@
 
 #include <string>
 #include <bitset>
+#include <vector>
 
-int getOpcode (std::string instr, std::bitset<4>& op, std::bitset<3>& f);
+void splitString(std::string str, std::vector<std::string>& argVec, std::string delimiter);
 
-unsigned short int assemble (std::string line);
+int getOpcode (std::string instr, std::bitset<4>& op, std::bitset<3>& f, int& order);
+
+unsigned short int assemble (std::string line, bool& error);

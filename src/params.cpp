@@ -27,8 +27,11 @@ void handleFlag(char const flag){
 }
 
 void handleInput(char const* path){
+    bool error = false;
+
     if(__INLINE){
-        assemble(path);
+        assemble(path, error);
+        if(error) return; // TODO ERROR HANDLING
     }else{
         std::cout << "Opening " << path << std::endl;
 
@@ -41,8 +44,9 @@ void handleInput(char const* path){
             
             while (std::getline(file, line))
             {
-                unsigned short int data = assemble(line);
-                oFile.write((char*) &data, sizeof(data));
+                unsigned short int data = assemble(line, error);
+                if (!error) oFile.write((char*) &data, sizeof(data));
+                else return;
             }
             file.close();
             oFile.close();
