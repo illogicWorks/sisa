@@ -7,7 +7,7 @@
 std::vector<std::string> mathops = {"AND", "OR", "XOR", "NOT", "ADD", "SUB", "SHA", "SHL"};
 std::vector<std::string> cmpops = {"CMPLT", "CMPLE", "-", "CMPEQ", "CMPLTU", "CMPLEU", "-", "-"};
 
-std::map<std::string, int> tworegops = {
+std::vector<std::pair<std::string,int>> tworegops = {
     { "ADDI", 0 },
     { "LD", 1 },
     { "ST", 2 },
@@ -16,13 +16,13 @@ std::map<std::string, int> tworegops = {
     { "JALR", 3 }
 };
 
-std::map<std::string, int> one_0_regops = {
+std::vector<std::pair<std::string,int>> one_0_regops = {
     { "BZ", 0 },
     { "MOVI", 0 },
     { "IN", 0 },
 };
 
-std::map<std::string, int> one_1_regops = {
+std::vector<std::pair<std::string,int>> one_1_regops = {
     { "BNZ", 0 },
     { "MOVHI", 0 },
     { "OUT", 1 }
@@ -226,7 +226,6 @@ int getOpcode (std::string instr, std::bitset<4>& op, std::bitset<3>& f, int& or
     }
 
     // This will be probably replaced by a better handler
-    
     // One ZERO register format INS REGA, REGB/D, N
     for (auto const& [key, val] : one_0_regops)
     {
@@ -238,7 +237,9 @@ int getOpcode (std::string instr, std::bitset<4>& op, std::bitset<3>& f, int& or
         }
         i++;
     }
+    
     i -= one_0_regops.size();
+
    // One ONE register format INS REGA, REGB/D, N
     for (auto const& [key, val] : one_1_regops)
     {
