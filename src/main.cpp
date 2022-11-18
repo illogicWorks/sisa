@@ -27,7 +27,7 @@ int main(int argc, char const *argv[])
         else pathIn = argv[i]; // We save later to execute after setting all the flags so order doesn't matter
     }
 
-    if(pathIn != "\0") handleInput(pathIn);
+    if(pathIn != "\0") return handleInput(pathIn);
     else handleFlag('h');
 
     return 0;

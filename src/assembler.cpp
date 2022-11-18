@@ -44,7 +44,7 @@ void splitString(std::string str, std::vector<std::string>& argVec, std::string 
      argVec.push_back(str);
 }
 
-unsigned short int assemble (std::string line, bool& error){
+unsigned short int assemble (std::string line, bool& error, std::string& errorMsg){
     // Keep string copy
     std::string args = line;
 
@@ -68,17 +68,17 @@ unsigned short int assemble (std::string line, bool& error){
     // Separate args
     std::vector<std::string> argVec;
     splitString(args, argVec, ", ");
-    
+
     // Encode based on register type
     if(regType == 3){
 
         if(instr == "NOT" && argVec.size() < 2){
-            debug("ERROR", "Missing register at operand " + instr + " at line TODO", 1);
+            errorMsg = "ERROR: Missing register at operand " + instr;
             error = true;
             return 0;
         }
         if(instr != "NOT" && argVec.size() < 3){
-            debug("ERROR", "Missing register at operand " + instr + " at line TODO", 1);
+            errorMsg = "ERROR: Missing register at operand " + instr;
             error = true;
             return 0;
         }
@@ -90,7 +90,10 @@ unsigned short int assemble (std::string line, bool& error){
         if(instr == "NOT"){
             regB = std::bitset<3> (0);
         }else{
+            std::cout << "I am gonna do the THING" << std::endl;
             regB = std::bitset<3> (argVec[2][1]);
+            std::cout << "Did I fail, son" << std::endl;
+
         }
 
         debug("D", regD, 2);
@@ -187,7 +190,8 @@ unsigned short int assemble (std::string line, bool& error){
         return result;
 
     }else{
-        debug("ERROR", "Unkown instruction " + instr + " at line TODO", 1);
+        errorMsg = "ERROR: Unkown instruction " + instr;
+        error = true;
     }
 
     return 0;

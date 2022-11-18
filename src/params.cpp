@@ -1,5 +1,6 @@
 #include <iostream>
 #include <fstream>
+#include <iterator>
 #include <string>
 
 #include "headers/strings.h"
@@ -26,12 +27,13 @@ void handleFlag(char const flag){
     }
 }
 
-void handleInput(char const* path){
+int handleInput(char const* path){
     bool error = false;
-
+    std::string errorMsg = "";
+    int lineN = 1;
     if(__INLINE){
-        assemble(path, error);
-        if(error) return; // TODO ERROR HANDLING
+        assemble(path, error, errorMsg);
+        if(error) std::cout << errorMsg << std::endl; // TODO ERROR HANDLING
     }else{
         std::cout << "Opening " << path << std::endl;
 
@@ -44,9 +46,12 @@ void handleInput(char const* path){
             
             while (std::getline(file, line))
             {
-                unsigned short int data = assemble(line, error);
+                unsigned short int data = assemble(line, error, errorMsg);
                 if (!error) oFile.write((char*) &data, sizeof(data));
-                else return;
+                else {
+                    std::cout << errorMsg << " at line " << lineN << std::endl;
+                }
+                lineN++;
             }
             file.close();
             oFile.close();
@@ -55,4 +60,6 @@ void handleInput(char const* path){
         }
         else std::cout << _FILE_READ_ERROR << std::endl; 
     }
+
+    return error;
 }

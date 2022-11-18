@@ -1,4 +1,4 @@
 #pragma once
 
 void handleFlag(char const flag);
-void handleInput(char const* path);
+int handleInput(char const* path);
