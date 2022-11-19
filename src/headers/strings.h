@@ -8,3 +8,6 @@
 #define _NO_INPUT_ERROR "Provide output path"
 #define _FILE_READ_ERROR "Unable to open file"
 #define _FILE_WRITE_ERROR "Unable to write file"
+
+#define _MISSING_OPERAND_ERROR "Missing operand in opcode"
+#define _UNKNOWN_INSTRUCTION_ERROR "Unkown instruction"

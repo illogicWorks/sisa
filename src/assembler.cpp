@@ -1,5 +1,6 @@
 #include "headers/assembler.h"
 #include "headers/utils.h"
+#include "headers/strings.h"
 
 #include <iostream>
 #include <map>
@@ -27,6 +28,10 @@ std::vector<std::pair<std::string,int>> one_1_regops = {
     { "MOVHI", 0 },
     { "OUT", 1 }
 };
+
+std::string formatError(std::string err, std::string instr){
+    return "ERROR: " + err + " " + instr;
+}
 
 bool strValid(std::string str){
     return str != "" || str.find_first_not_of(' ') != std::string::npos;
@@ -75,12 +80,12 @@ unsigned short int assemble (std::string line, bool& error, std::string& errorMs
     // Encode based on register type
     if(regType == 3){
         if(instr == "NOT" && argVec.size() < 2){
-            errorMsg = "ERROR: Missing operand in opcode " + instr;
+            errorMsg = formatError(_MISSING_OPERAND_ERROR, instr);
             error = true;
             return 0;
         }
         if(instr != "NOT" && argVec.size() < 3){
-            errorMsg = "ERROR: Missing operand in opcode " + instr;
+            errorMsg = formatError(_MISSING_OPERAND_ERROR, instr);
             error = true;
             return 0;
         }
@@ -111,7 +116,7 @@ unsigned short int assemble (std::string line, bool& error, std::string& errorMs
         return result;
     }else if (regType == 2){
         if (argVec.size() < 3) {
-            errorMsg = "ERROR: Missing operand in opcode " + instr;
+            errorMsg = formatError(_MISSING_OPERAND_ERROR, instr);
             error = true;
             return 0;
         }
@@ -127,7 +132,13 @@ unsigned short int assemble (std::string line, bool& error, std::string& errorMs
             case 0:
                 regBD = std::bitset<3>(argVec[0][1]);
                 regA = std::bitset<3>(argVec[1][1]);
-                N = std::bitset<6>(std::stoi(argVec[2]));
+                try {
+                    N = std::bitset<6>(std::stoi(argVec[2]));
+                }
+                catch (std::invalid_argument err){
+                    error = true;
+                    errorMsg = err.what();
+                }
                 break;
             case 1:
                 regBD = std::bitset<3>(argVec[0][1]);
@@ -166,7 +177,7 @@ unsigned short int assemble (std::string line, bool& error, std::string& errorMs
 
     }else if (regType == 1){
         if (argVec.size() < 2) {
-            errorMsg = "ERROR: Missing operand in opcode " + instr;
+            errorMsg = formatError(_MISSING_OPERAND_ERROR, instr);
             error = true;
             return 0;
         }
@@ -204,7 +215,7 @@ unsigned short int assemble (std::string line, bool& error, std::string& errorMs
         return result;
 
     }else{
-        errorMsg = "ERROR: Unkown instruction " + instr;
+        errorMsg = formatError(_UNKNOWN_INSTRUCTION_ERROR, instr);
         error = true;
     }
 

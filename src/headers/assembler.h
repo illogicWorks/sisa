@@ -4,6 +4,8 @@
 #include <bitset>
 #include <vector>
 
+std::string formatError(std::string err, std::string instr);
+
 bool strValid(std::string str);
 
 void splitString(std::string str, std::vector<std::string>& argVec, std::string delimiter);
