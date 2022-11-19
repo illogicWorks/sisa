@@ -11,3 +11,4 @@
 
 #define _MISSING_OPERAND_ERROR "Missing operand in opcode"
 #define _UNKNOWN_INSTRUCTION_ERROR "Unkown instruction"
+#define _INVALID_IMMEDIATE_ERROR "Invalid immediate in opcode"

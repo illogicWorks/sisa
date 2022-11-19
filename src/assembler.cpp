@@ -82,12 +82,12 @@ unsigned short int assemble (std::string line, bool& error, std::string& errorMs
         if(instr == "NOT" && argVec.size() < 2){
             errorMsg = formatError(_MISSING_OPERAND_ERROR, instr);
             error = true;
-            return 0;
+            return 1;
         }
         if(instr != "NOT" && argVec.size() < 3){
             errorMsg = formatError(_MISSING_OPERAND_ERROR, instr);
             error = true;
-            return 0;
+            return 1;
         }
 
         std::bitset<3> regD (argVec[0][1]);
@@ -118,7 +118,7 @@ unsigned short int assemble (std::string line, bool& error, std::string& errorMs
         if (argVec.size() < 3) {
             errorMsg = formatError(_MISSING_OPERAND_ERROR, instr);
             error = true;
-            return 0;
+            return 1;
         }
 
         std::bitset<6> N;
@@ -137,21 +137,34 @@ unsigned short int assemble (std::string line, bool& error, std::string& errorMs
                 }
                 catch (std::invalid_argument err){
                     error = true;
-                    errorMsg = err.what();
+                    errorMsg = formatError(_INVALID_IMMEDIATE_ERROR, instr);
+                    return 2;
                 }
                 break;
             case 1:
                 regBD = std::bitset<3>(argVec[0][1]);
                 splitString(argVec[1], splitArgs, "(");
 
-                N = std::bitset<6>(std::stoi(splitArgs[0]));
+                try{
+                    N = std::bitset<6>(std::stoi(splitArgs[0]));
+                } catch (std::invalid_argument err){
+                    error = true;
+                    errorMsg = formatError(_INVALID_IMMEDIATE_ERROR, instr);
+                    return 2;
+                }
                 regA = std::bitset<3>(splitArgs[1][1]);
                 break;
             case 2:
                 regBD = std::bitset<3>(argVec[1][1]);
                 splitString(argVec[0], splitArgs, "(");
 
-                N = std::bitset<6>(std::stoi(splitArgs[0]));
+                try{
+                    N = std::bitset<6>(std::stoi(splitArgs[0]));
+                } catch (std::invalid_argument err){
+                    error = true;
+                    errorMsg = formatError(_INVALID_IMMEDIATE_ERROR, instr);
+                    return 2;
+                }
                 regA = std::bitset<3>(splitArgs[1][1]);
 
                 break;
@@ -179,7 +192,7 @@ unsigned short int assemble (std::string line, bool& error, std::string& errorMs
         if (argVec.size() < 2) {
             errorMsg = formatError(_MISSING_OPERAND_ERROR, instr);
             error = true;
-            return 0;
+            return 1;
         }
 
         std::bitset<8> N;
@@ -193,12 +206,25 @@ unsigned short int assemble (std::string line, bool& error, std::string& errorMs
             case 0:
                 regAD = std::bitset<3>(argVec[0][1]);
                 nextInstr = std::bitset<1>(f.to_ulong());
-                N = std::bitset<8>(std::stoi(argVec[1]));
+                try{
+                    N = std::bitset<8>(std::stoi(argVec[1]));
+                } catch (std::invalid_argument err){
+                    error = true;
+                    errorMsg = formatError(_INVALID_IMMEDIATE_ERROR, instr);
+                    return 2;
+                }
                 break;
             case 1:
                 regAD = std::bitset<3>(argVec[1][1]);
                 nextInstr = std::bitset<1>(f.to_ulong());
-                N = std::bitset<8>(std::stoi(argVec[0]));
+
+                try{
+                    N = std::bitset<8>(std::stoi(argVec[0]));
+                } catch (std::invalid_argument err){
+                    error = true;
+                    errorMsg = formatError(_INVALID_IMMEDIATE_ERROR, instr);
+                    return 2;
+                }
                 break;
         }
 
@@ -217,6 +243,7 @@ unsigned short int assemble (std::string line, bool& error, std::string& errorMs
     }else{
         errorMsg = formatError(_UNKNOWN_INSTRUCTION_ERROR, instr);
         error = true;
+        return 3;
     }
 
     return 0;
