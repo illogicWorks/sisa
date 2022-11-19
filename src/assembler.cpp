@@ -28,6 +28,9 @@ std::vector<std::pair<std::string,int>> one_1_regops = {
     { "OUT", 1 }
 };
 
+bool strValid(std::string str){
+    return str != "" || str.find_first_not_of(' ') != std::string::npos;
+}
 
 void splitString(std::string str, std::vector<std::string>& argVec, std::string delimiter){
     int pos = 0;
@@ -36,12 +39,12 @@ void splitString(std::string str, std::vector<std::string>& argVec, std::string 
     while((pos = str.find(delimiter)) != std::string::npos){
         token = str.substr(0, pos);
 
-        if(token != "") argVec.push_back(token);
+        if(strValid(token)) argVec.push_back(token);
 
         str.erase(0, pos + delimiter.length());
     }
 
-     argVec.push_back(str);
+    if (strValid(str)) argVec.push_back(str);
 }
 
 unsigned short int assemble (std::string line, bool& error, std::string& errorMsg){
@@ -71,7 +74,6 @@ unsigned short int assemble (std::string line, bool& error, std::string& errorMs
 
     // Encode based on register type
     if(regType == 3){
-
         if(instr == "NOT" && argVec.size() < 2){
             errorMsg = "ERROR: Missing operand in opcode " + instr;
             error = true;
