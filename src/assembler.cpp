@@ -112,7 +112,7 @@ unsigned short int assemble (std::string line, bool& error, std::string& errorMs
         
         return result;
     }else if (regType == 2){
-        if (argVec.size() < 3) {
+        if (argVec.size() < 2) {
             errorMsg = formatError(_MISSING_OPERAND_ERROR, instr);
             error = true;
             return 1;
