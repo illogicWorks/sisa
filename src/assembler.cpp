@@ -97,10 +97,7 @@ unsigned short int assemble (std::string line, bool& error, std::string& errorMs
         if(instr == "NOT"){
             regB = std::bitset<3> (0);
         }else{
-            std::cout << "I am gonna do the THING" << std::endl;
             regB = std::bitset<3> (argVec[2][1]);
-            std::cout << "Did I fail, son" << std::endl;
-
         }
 
         debug("D", regD, 2);
