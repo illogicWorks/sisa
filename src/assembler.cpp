@@ -35,8 +35,8 @@ void splitString(std::string str, std::vector<std::string>& argVec, std::string 
     // Separate args
     while((pos = str.find(delimiter)) != std::string::npos){
         token = str.substr(0, pos);
-        
-        argVec.push_back(token);
+
+        if(token != "") argVec.push_back(token);
 
         str.erase(0, pos + delimiter.length());
     }
@@ -73,12 +73,12 @@ unsigned short int assemble (std::string line, bool& error, std::string& errorMs
     if(regType == 3){
 
         if(instr == "NOT" && argVec.size() < 2){
-            errorMsg = "ERROR: Missing register at operand " + instr;
+            errorMsg = "ERROR: Missing operand in opcode " + instr;
             error = true;
             return 0;
         }
         if(instr != "NOT" && argVec.size() < 3){
-            errorMsg = "ERROR: Missing register at operand " + instr;
+            errorMsg = "ERROR: Missing operand in opcode " + instr;
             error = true;
             return 0;
         }
@@ -108,6 +108,12 @@ unsigned short int assemble (std::string line, bool& error, std::string& errorMs
         
         return result;
     }else if (regType == 2){
+        if (argVec.size() < 3) {
+            errorMsg = "ERROR: Missing operand in opcode " + instr;
+            error = true;
+            return 0;
+        }
+
         std::bitset<6> N;
         std::bitset<3> regA;
         std::bitset<3> regBD; // B OR D
@@ -157,6 +163,12 @@ unsigned short int assemble (std::string line, bool& error, std::string& errorMs
         return result;
 
     }else if (regType == 1){
+        if (argVec.size() < 2) {
+            errorMsg = "ERROR: Missing operand in opcode " + instr;
+            error = true;
+            return 0;
+        }
+
         std::bitset<8> N;
         std::bitset<3> regAD;
         std::bitset<1> nextInstr; // B OR D
